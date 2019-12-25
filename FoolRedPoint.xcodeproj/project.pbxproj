@@ -34,8 +34,8 @@
 		E94363F623B3B673000D3430 /* FoolRedPoint */ = {
 			isa = PBXGroup;
 			children = (
-				E94363F823B3B69C000D3430 /* FoolRedPointTestView.swift */,
 				E94363F723B3B69C000D3430 /* FoolRedPointView.swift */,
+				E94363F823B3B69C000D3430 /* FoolRedPointTestView.swift */,
 			);
 			path = FoolRedPoint;
 			sourceTree = "<group>";
