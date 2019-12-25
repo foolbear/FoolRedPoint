@@ -1,2 +1,3 @@
 # FoolRedPoint
-Simple RedPoint for SwiftUI
+
+A description of this package.
