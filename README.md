@@ -1,8 +1,7 @@
 # FoolRedPoint
-
 Simple RedPoint for SwiftUI.
  
-Click to play Demo Video 
+Click to play Demo Video  
 [![Click to play Demo Video](http://img.youtube.com/vi/nHj8mAoiZ44/0.jpg)](https://www.youtube.com/embed/nHj8mAoiZ44 "Click to play Demo Video") 
  
 ## Installation: 
