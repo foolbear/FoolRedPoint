@@ -25,15 +25,14 @@ public enum FoolRedPointState: Int, CustomStringConvertible {
 }
 
 @available(iOS 13.0, *)
-struct FoolRedPointView<Presenting, RedPoint>: View where Presenting: View, RedPoint: View {
-    let presenting: () -> Presenting
+struct FoolRedPointView<RedPoint>: ViewModifier where RedPoint: View {
     var redPoint: () -> RedPoint
     var size: CGSize
     var alignment: Alignment
     @Binding var state: FoolRedPointState
     @State private var blinkState = true
     
-    var body: some View {
+    func body(content: Content) -> some View {
         var offsetX: CGFloat = 0
         var offsetY: CGFloat = 0
         switch alignment {
@@ -61,7 +60,7 @@ struct FoolRedPointView<Presenting, RedPoint>: View where Presenting: View, RedP
         
         return
             ZStack(alignment: .center) {
-                presenting().overlay(
+                content.overlay(
                     Group {
                         if state == .hide {
                             EmptyView()
@@ -71,17 +70,18 @@ struct FoolRedPointView<Presenting, RedPoint>: View where Presenting: View, RedP
                             redPoint()
                                 .opacity(blinkState ? 1.0 : 0.0).animation(Animation.easeInOut(duration: 0.4).repeatForever(autoreverses: true))
                                 .onAppear() { self.blinkState.toggle() }
-                        }}
-                        .frame(width: size.width, height: size.height)
-                        .offset(x: offsetX, y: offsetY)
-                    , alignment: alignment)
+                        }
+                    }
+                    .frame(width: size.width, height: size.height)
+                    .offset(x: offsetX, y: offsetY)
+                    , alignment: alignment
+                )
         }
     }
 }
 
 @available(iOS 13.0, *)
 public extension View {
-    
     func foolRedPoint<RedPoint>(
         state: Binding<FoolRedPointState>,
         size: CGSize = CGSize(width: 8, height: 8),
@@ -89,7 +89,7 @@ public extension View {
         redPoint: @escaping () -> RedPoint)
         -> some View
         where RedPoint: View {
-            FoolRedPointView(presenting: { self }, redPoint: redPoint, size: size, alignment: alignment, state: state)
+            self.modifier(FoolRedPointView(redPoint: redPoint, size: size, alignment: alignment, state: state))
     }
     
     func foolRedPoint(
@@ -97,7 +97,6 @@ public extension View {
         size: CGSize = CGSize(width: 8, height: 8),
         alignment: Alignment = .topLeading)
         -> some View {
-            FoolRedPointView(presenting: { self }, redPoint: { Circle().fill(Color.red) }, size: size, alignment: alignment, state: state)
+            self.modifier(FoolRedPointView(redPoint: { Circle().fill(Color.red) }, size: size, alignment: alignment, state: state))
     }
-    
 }
